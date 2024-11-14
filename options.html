@@ -1,9 +1,10 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RestaurantLand</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
     <link rel="stylesheet" href="./css/options.css">
 </head>
 <body>
@@ -15,7 +16,7 @@
         </div>
         <nav class="header-nav">
             <button onclick="location.href='index.html'">Home</button>
-            <button onclick="location.href='#services'">Services</button>
+            <button onclick="location.href='reservation.html'">Make a Reservetion</button>
             <button onclick="location.href='options.html'">Manager Options</button>
         </nav>
     </header>
@@ -24,13 +25,11 @@
             <div class="orders-ongoing">
                 <h2>Options</h2>
                 <nav class="menu-nav">
-                    <button onclick="location.href='index.html'">Add Employee</button>
-                    <button onclick="location.href='#menu'">Remove Employee</button>
-                    <button onclick="location.href='#services'">Week Payroll Overview</button>
-                    <button onclick="location.href='#options'">Clients Options</button>
                     <button onclick="location.href='menu.html'">Menu Options</button>
-                    <button onclick="location.href='#options'">Reports</button>
                 </nav>
+                <label for="timezoneSelect">Selecione o Fuso Horário:</label>
+        <select id="timezoneSelect" onchange="setTimezone()">
+        </select>
             </div>
         </section>
     </div>
