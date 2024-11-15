@@ -138,6 +138,44 @@ header h1 {
     margin-bottom: 15px;
 }
 
+.timezone-select-container {
+    position: absolute;
+    top: 220px;
+    right: 100px;
+    background-color: rgba(0, 0, 0, 0.7);
+    padding: 20px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 1rem;
+}
+
+/* Estilos do label e dropdown */
+.timezone-select-container label {
+    font-size: 2rem;
+    margin-bottom: 10px;
+    display: block;
+    color: #d3d3d3;
+}
+
+.timezone-select-container select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 5px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    font-size: 1.5rem;
+    cursor: pointer;
+    margin-top: 10px;
+    transition: background-color 0.3s;
+}
+
+.timezone-select-container select:hover {
+    background-color: #444;
+}
+
+
+
 .menu-nav {
     display: flex;
     gap: 40px; 

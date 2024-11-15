@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RestaurantLand</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.0.2/luxon.min.js"></script>
     <link rel="stylesheet" href="./css/options.css">
 </head>
 <body>
@@ -17,7 +17,7 @@
         <nav class="header-nav">
             <button onclick="location.href='index.html'">Home</button>
             <button onclick="location.href='reservation.html'">Make a Reservetion</button>
-            <button onclick="location.href='options.html'">Manager Options</button>
+            <button onclick="location.href='options.html'">Options</button>
         </nav>
     </header>
     <div class="container">
@@ -27,9 +27,10 @@
                 <nav class="menu-nav">
                     <button onclick="location.href='menu.html'">Menu Options</button>
                 </nav>
-                <label for="timezoneSelect">Selecione o Fuso Horário:</label>
-        <select id="timezoneSelect" onchange="setTimezone()">
-        </select>
+                <div class="timezone-select-container">
+                    <label for="timezoneSelect">Choose Timezone:</label>
+                    <select id="timezoneSelect" onchange="setTimezone()"></select>
+                </div>
             </div>
         </section>
     </div>

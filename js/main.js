@@ -1,40 +1,57 @@
-let timezone = 'America/New_York'; 
+const { DateTime } = luxon;
+let timezone = localStorage.getItem('selectedTimezone') || 'America/New_York'; // Carrega do localStorage ou define um padrão
 
-async function updateDateTime() {
-    try {
-        const response = await fetch(`http://localhost:3000/datetime?timezone=${timezone}`);
-        const data = await response.json();
-        
-    
-        document.getElementById("date").textContent = data.date;
-        document.getElementById("time").textContent = data.time;
-    } catch (error) {
-        console.error('Error to get time and date:', error);
-        document.getElementById("date").textContent = 'Error loading date';
-        document.getElementById("time").textContent = '';
+// Função para atualizar a data e hora com base no fuso horário selecionado
+function updateDateTime() {
+    const now = DateTime.now().setZone(timezone);
+    document.getElementById("date").textContent = `${now.toLocaleString(DateTime.DATE_HUGE)}`;
+    document.getElementById("time").textContent = `${now.toLocaleString(DateTime.TIME_WITH_SECONDS)}`;
+}
+
+// Função para popular a lista de fusos horários no dropdown
+function populateTimezones() {
+    const timezoneSelect = document.getElementById('timezoneSelect');
+    if (!timezoneSelect) return;
+
+    const timezones = [
+        "Pacific/Midway", "Pacific/Honolulu", "America/Anchorage", "America/Los_Angeles",
+        "America/Denver", "America/Chicago", "America/New_York", "America/Sao_Paulo",
+        "Atlantic/Azores", "Europe/London", "Europe/Paris", "Europe/Moscow",
+        "Africa/Cairo", "Asia/Jerusalem", "Asia/Dubai", "Asia/Karachi",
+        "Asia/Kolkata", "Asia/Dhaka", "Asia/Bangkok", "Asia/Singapore",
+        "Asia/Tokyo", "Australia/Sydney", "Pacific/Fiji", "Pacific/Auckland"
+    ];
+
+    timezones.forEach(zone => {
+        const now = DateTime.now().setZone(zone);
+        const offset = now.offset / 60;
+        const offsetSign = offset >= 0 ? "+" : "";
+        const formattedOffset = `${offsetSign}${offset}:00`;
+        const optionText = `${zone} (UTC${formattedOffset})`;
+
+        const option = document.createElement('option');
+        option.value = zone;
+        option.textContent = optionText;
+        timezoneSelect.appendChild(option);
+    });
+
+    // Define o fuso horário selecionado com base no localStorage
+    timezoneSelect.value = timezone;
+}
+
+// Função chamada ao selecionar um novo fuso horário
+function setTimezone() {
+    const timezoneSelect = document.getElementById('timezoneSelect');
+    if (timezoneSelect) {
+        timezone = timezoneSelect.value;
+        localStorage.setItem('selectedTimezone', timezone); // Salva no localStorage
+        updateDateTime();
     }
 }
 
-
+populateTimezones();
 updateDateTime();
-setInterval(updateDateTime, 1000); 
-
-document.addEventListener("DOMContentLoaded", function() {
-    const form = document.querySelector(".reservation-schedule form");
-    const phoneInput = form.querySelector("#phone");
-
-    phoneInput.addEventListener("input", function() {
-        let phoneNumber = phoneInput.value.replace(/\D/g, ""); 
-
-        if (phoneNumber.length <= 3) {
-            phoneInput.value = `(${phoneNumber}`;
-        } else if (phoneNumber.length <= 6) {
-            phoneInput.value = `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
-        } else {
-            phoneInput.value = `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
-        }
-    });
-});
+setInterval(updateDateTime, 1000); // Atualiza a cada segundo
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -85,10 +102,9 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 
     function saveReservation(reservation) {
-        // Recupera as reservas existentes
         let reservations = JSON.parse(localStorage.getItem("reservations")) || [];
         reservations.push(reservation);
-        reservations.sort((a, b) => new Date(a.date) - new Date(b.date)); // Ordena por data
+        reservations.sort((a, b) => new Date(a.date) - new Date(b.date)); 
         localStorage.setItem("reservations", JSON.stringify(reservations));
     }
 });
