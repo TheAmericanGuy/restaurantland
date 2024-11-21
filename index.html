@@ -3,45 +3,40 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RestaurantLand</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
-    <link rel="stylesheet" href="./css/indexstyle.css">
+    <title>Orders Tab</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- Navigation Menu -->
     <header>
-        <h1>RestaurantLand</h1>
-        <div id="datetime" class="datetime">
-            <div id="date"></div>
-            <div id="time"></div>
+        <h1>Restaurant Management</h1>
+        <div class="menu-nav">
+            <button>Home</button>
+            <button>Specials</button>
+            <button class="active">Orders</button> <!-- New Orders Tab -->
+            <button>Settings</button>
         </div>
-        <nav class="header-nav">
-            <button onclick="location.href='index.html'">Home</button>
-            <button onclick="location.href='reservation.html'">Make a Reservation</button>
-            <button onclick="location.href='options.html'">Options</button>
-        </nav>
     </header>
-    <div class="container">
-        <nav class="sidebar">
-            <div class="specials">
-                <h2>Specials Of The Day</h2>
+
+    <!-- Orders Tab Content -->
+    <div class="orders-container">
+        <div class="orders-tab">
+            <div class="orders-section">
+                <h2>Pending Orders</h2>
+                <div id="pending-orders" class="order-list">
+                    <!-- Pending orders will be dynamically inserted here -->
+                </div>
             </div>
-            <div class="sidebar-nav">
-                <button onclick="location.href='#table'" style="color: rgb(77, 0, 165); font-style: italic; background-color: rgb(250, 165, 250);">Table View</button>
-                <button onclick="location.href='#new-orders'">New Orders</button>
+            
+            <div class="orders-section">
+                <h2>Active Orders</h2>
+                <div id="active-orders" class="order-list">
+                    <!-- Active orders will be dynamically inserted here -->
+                </div>
             </div>
-        </nav>
-        <section class="main-content">
-            <div class="orders-ongoing">
-                <h2> OnGoing Orders</h2>
-            </div>
-            <div class="reservations">
-                <h2> Reservations</h2>
-            </div>
-        </section>
+        </div>
     </div>
-    <footer>
-        <p>&copy; Hi! Im a footer</p>
-    </footer>
-    <script src="./js/main.js"></script>
+
+    <script src="script.js"></script>
 </body>
 </html>
