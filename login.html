@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RestaurantLand</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.0.2/luxon.min.js"></script>
+    <link rel="stylesheet" href="./css/loginstyle.css">
+</head>
+<body>
+    <header>
+        <h1>RestaurantLand</h1>
+        <div id="datetime" class="datetime">
+            <div id="date"></div>
+            <div id="time"></div>
+        </div>
+    </header>
+    <div class="login-container">
+        <h2>Welcome to RestaurantLand</h2>
+        <p>Please enter your PIN to continue:</p>
+        <div id="pin-display" class="pin-display">••••</div>
+        <div class="keypad">
+            <!-- Botões do teclado numérico -->
+            <button class="key" data-key="1">1</button>
+            <button class="key" data-key="2">2</button>
+            <button class="key" data-key="3">3</button>
+            <button class="key" data-key="4">4</button>
+            <button class="key" data-key="5">5</button>
+            <button class="key" data-key="6">6</button>
+            <button class="key" data-key="7">7</button>
+            <button class="key" data-key="8">8</button>
+            <button class="key" data-key="9">9</button>
+            <button class="key" data-key="clear">C</button>
+            <button class="key" data-key="0">0</button>
+            <button class="key" data-key="backspace">←</button>
+        </div>
+        <button id="submit-button" class="submit-button">Login</button>
+        <p id="error-message" class="error-message" style="display: none;">Invalid PIN. Try again.</p>
+    </div>
+    <script src="./js/login.js"></script>
+    <script src="./js/main.js"></script>
+</body>
+</html>

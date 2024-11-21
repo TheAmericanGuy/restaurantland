@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RestaurantLand</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/luxon/2.0.2/luxon.min.js"></script>
+    <link rel="stylesheet" href="./css/edit-usersstule.css">
+</head>
+<body>
+    <header>
+        <h1>RestaurantLand</h1>
+        <div id="datetime" class="datetime">
+            <div id="date"></div>
+            <div id="time"></div>
+        </div>
+        <nav class="header-nav">
+            <button onclick="location.href='index.html'">Home</button>
+            <button onclick="location.href='reservation.html'">Make a Reservetion</button>
+            <button onclick="location.href='options.html'">Options</button>
+        </nav>
+    </header>
+    <div class="edit-users-container">
+        <h2>Edit Users</h2>
+        <div class="tabs">
+            <button class="tab-button active" data-tab="add-user-tab">Add User</button>
+            <button class="tab-button" data-tab="delete-user-tab">Delete User</button>
+        </div>
+        <div id="add-user-tab" class="tab-content active">
+            <h2>Add User</h2>
+            <form id="add-user-form">
+                <input type="text" id="new-user-name" placeholder="Enter user name" required>
+                <input type="password" id="new-user-pin" placeholder="Enter user PIN" maxlength="4" required>
+                <button type="submit">Add User</button>
+            </form>
+            <p id="add-user-message" style="display: none;">User added successfully!</p>
+        </div>
+        <div id="delete-user-tab" class="tab-content">
+            <h2>Delete User</h2>
+            <ul id="user-list"></ul>
+        </div>
+    </div>
+    <script src="./js/main.js"></script>
+</body>
+</html>

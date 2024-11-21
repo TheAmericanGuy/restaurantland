@@ -56,6 +56,20 @@ setInterval(updateDateTime, 1000); // Atualiza a cada segundo
 
 document.addEventListener("DOMContentLoaded", function() {
     const form = document.querySelector(".reservation-schedule form");
+    const phoneInput = form.querySelector("#phone");
+
+    phoneInput.addEventListener("input", function() {
+        let phoneNumber = phoneInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+
+        // Formata o número para o formato (123) 456-7890
+        if (phoneNumber.length <= 3) {
+            phoneInput.value = `(${phoneNumber}`;
+        } else if (phoneNumber.length <= 6) {
+            phoneInput.value = `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3)}`;
+        } else {
+            phoneInput.value = `(${phoneNumber.slice(0, 3)}) ${phoneNumber.slice(3, 6)}-${phoneNumber.slice(6, 10)}`;
+        }
+    })
 
     form.addEventListener("submit", function(event) {
         event.preventDefault();
@@ -249,6 +263,108 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+document.addEventListener("DOMContentLoaded", function () {
+    if (window.location.pathname.includes("edit_users.html")) {
+        const tabs = document.querySelectorAll(".tab-button");
+        const tabContents = document.querySelectorAll(".tab-content");
 
+        const addUserForm = document.getElementById("add-user-form");
+        const newUserNameInput = document.getElementById("new-user-name");
+        const newUserPinInput = document.getElementById("new-user-pin");
+        const addUserMessage = document.getElementById("add-user-message");
+
+        const userList = document.getElementById("user-list");
+
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+
+        tabs.forEach(tab => {
+            tab.addEventListener("click", function () {
+                tabs.forEach(t => t.classList.remove("active"));
+                tabContents.forEach(tc => tc.classList.remove("active"));
+
+                this.classList.add("active");
+                document.getElementById(this.getAttribute("data-tab")).classList.add("active");
+            });
+        });
+
+        addUserForm.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            const name = newUserNameInput.value.trim();
+            const pin = newUserPinInput.value.trim();
+
+            if (!name || pin.length !== 4 || isNaN(pin)) {
+                alert("Please enter a valid name and a 4-digit PIN.");
+                return;
+            }
+
+            if (users.some(user => user.name === name)) {
+                alert("This name is already in use. Please choose a different name.");
+                return;
+            }
+
+            users.push({ name, pin });
+            localStorage.setItem("users", JSON.stringify(users));
+
+            addUserMessage.style.display = "block";
+            setTimeout(() => (addUserMessage.style.display = "none"), 2000);
+
+            newUserNameInput.value = "";
+            newUserPinInput.value = "";
+            updateUserList();
+        });
+
+        function updateUserList() {
+            userList.innerHTML = "";
+
+            users.forEach((user, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = `
+                    <span>${user.name} (PIN: ${user.pin})</span>
+                    <button class="delete-user" data-index="${index}">Delete</button>
+                `;
+                userList.appendChild(li);
+            });
+
+            document.querySelectorAll(".delete-user").forEach(button => {
+                button.addEventListener("click", function () {
+                    const index = this.getAttribute("data-index");
+                    console.log(`Deleting user at index: ${index}`);
+                    users.splice(index, 1);
+                    localStorage.setItem("users", JSON.stringify(users));
+                    updateUserList();
+                });
+            });
+        }
+
+        updateUserList();
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    const userType = localStorage.getItem("userType"); // Recupera o tipo de usuário
+    const optionsButton = document.querySelector("button[onclick*='options.html']");
+
+    if (userType === "user" && optionsButton) {
+        optionsButton.style.display = "none"; // Esconde o botão "Options" para usuários comuns
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    let timeout;
+
+    function redirectToLogin() {
+        window.location.href = "login.html";
+    }
+
+    function resetTimeout() {
+        clearTimeout(timeout);
+        timeout = setTimeout(redirectToLogin, 1 * 60 * 1000);
+    }
+
+    document.addEventListener("click", resetTimeout);
+    document.addEventListener("scroll", resetTimeout);
+    resetTimeout();
+});
 
 
