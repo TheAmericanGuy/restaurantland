@@ -27,12 +27,15 @@
             </div>
             <div class="sidebar-nav">
                 <!-- <button onclick="location.href='#table'" style="color: rgb(77, 0, 165); font-style: italic; background-color: rgb(250, 165, 250);">Table View</button> -->
-                <button onclick="location.href='#new-orders'">New Orders</button>
+                <button onclick="location.href='new-orders.html'">New Orders</button>
             </div>
         </nav>
         <section class="main-content">
-            <div class="orders-ongoing">
-                <h2> OnGoing Orders</h2>
+            <div id="pending-orders" class="orders-ongoing">
+                <h2> Pending Orders</h2>
+            </div>
+            <div id="active-orders" class="orders-ongoing">
+                <h2> Active Orders</h2>
             </div>
             <div class="reservations">
                 <h2> Reservations</h2>
@@ -43,5 +46,6 @@
         <p>&copy; Hi! Im a footer</p>
     </footer>
     <script src="./js/main.js"></script>
+    <script src="./js/script.js"></script>
 </body>
 </html>

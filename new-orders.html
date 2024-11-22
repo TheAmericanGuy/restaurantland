@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Orders</title>
+    <link rel="stylesheet" href="./css/new-orders-style.css">
+</head>
+<body>
+    <header>
+        <h1>RestaurantLand</h1>
+        <div id="datetime" class="datetime">
+            <div id="date"></div>
+            <div id="time"></div>
+        </div>
+        <nav class="header-nav">
+            <button onclick="location.href='index.html'">Home</button>
+            <button onclick="location.href='reservation.html'">Make a Reservation</button>
+        </nav>
+    </header>
+    <div class="main-content">
+        <!-- Formulário de Pedido -->
+        <div class="orders-ongoing">
+            <h2>Create New Order</h2>
+            <form id="new-order-form">
+                <input type="text" id="customer-name" placeholder="Customer Name" required>
+                <div id="menu-items">
+                    <h3>Menu Options</h3>
+                    <button type="button" class="menu-item-btn" data-item="Vegetarian Pizza">Vegetarian Pizza</button>
+                    <button type="button" class="menu-item-btn" data-item="Chicken BBQ Pizza">Chicken BBQ Pizza</button>
+                    <button type="button" class="menu-item-btn" data-item="Spaghetti">Spaghetti</button>
+                    <button type="button" class="menu-item-btn" data-item="Caesar Salad">Caesar Salad</button>
+                </div>
+                <button type="submit" id="send-order">Send Order</button>
+            </form>
+        </div>
+
+        <!-- Caixa de itens selecionados -->
+        <div class="reservations">
+            <h2>Selected Items</h2>
+            <ul id="selected-items"></ul>
+        </div>
+    </div>
+    <script src="./js/new-orders.js"></script>
+</body>
+</html>

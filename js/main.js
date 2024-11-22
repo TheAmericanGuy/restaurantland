@@ -1,14 +1,12 @@
 const { DateTime } = luxon;
-let timezone = localStorage.getItem('selectedTimezone') || 'America/New_York'; // Carrega do localStorage ou define um padrão
+let timezone = localStorage.getItem('selectedTimezone') || 'America/New_York';
 
-// Função para atualizar a data e hora com base no fuso horário selecionado
 function updateDateTime() {
     const now = DateTime.now().setZone(timezone);
     document.getElementById("date").textContent = `${now.toLocaleString(DateTime.DATE_HUGE)}`;
     document.getElementById("time").textContent = `${now.toLocaleString(DateTime.TIME_WITH_SECONDS)}`;
 }
 
-// Função para popular a lista de fusos horários no dropdown
 function populateTimezones() {
     const timezoneSelect = document.getElementById('timezoneSelect');
     if (!timezoneSelect) return;
@@ -35,23 +33,21 @@ function populateTimezones() {
         timezoneSelect.appendChild(option);
     });
 
-    // Define o fuso horário selecionado com base no localStorage
     timezoneSelect.value = timezone;
 }
 
-// Função chamada ao selecionar um novo fuso horário
 function setTimezone() {
     const timezoneSelect = document.getElementById('timezoneSelect');
     if (timezoneSelect) {
         timezone = timezoneSelect.value;
-        localStorage.setItem('selectedTimezone', timezone); // Salva no localStorage
+        localStorage.setItem('selectedTimezone', timezone); 
         updateDateTime();
     }
 }
 
 populateTimezones();
 updateDateTime();
-setInterval(updateDateTime, 1000); // Atualiza a cada segundo
+setInterval(updateDateTime, 1000); 
 
 
 document.addEventListener("DOMContentLoaded", function() {
@@ -59,9 +55,8 @@ document.addEventListener("DOMContentLoaded", function() {
     const phoneInput = form.querySelector("#phone");
 
     phoneInput.addEventListener("input", function() {
-        let phoneNumber = phoneInput.value.replace(/\D/g, ""); // Remove caracteres não numéricos
+        let phoneNumber = phoneInput.value.replace(/\D/g, "");
 
-        // Formata o número para o formato (123) 456-7890
         if (phoneNumber.length <= 3) {
             phoneInput.value = `(${phoneNumber}`;
         } else if (phoneNumber.length <= 6) {
@@ -125,17 +120,13 @@ document.addEventListener("DOMContentLoaded", function() {
 
 document.addEventListener("DOMContentLoaded", function() {
     const reservationsContainer = document.querySelector(".reservations");
-
-    // Carrega as reservas do localStorage
     const reservations = JSON.parse(localStorage.getItem("reservations")) || [];
 
-    // Adiciona as reservas abaixo do título <h2>
     reservations.forEach((reservation, index) => {
         const reservationItem = createReservationItem(reservation, index);
         reservationsContainer.appendChild(reservationItem);
     });
 
-    // Função para criar um item de reserva com a opção de remoção
     function createReservationItem(reservation, index) {
         const reservationItem = document.createElement("div");
         reservationItem.classList.add("reservation-item");
@@ -147,7 +138,6 @@ document.addEventListener("DOMContentLoaded", function() {
             cursor: pointer;
         `;
 
-        // Formata a data e a hora
         const formattedDate = formatDate(reservation.date);
         const formattedTime = formatTime(reservation.time);
 
@@ -164,7 +154,6 @@ document.addEventListener("DOMContentLoaded", function() {
             </div>
         `;
 
-        // Adiciona o evento de clique ao item completo da reserva
         reservationItem.addEventListener("click", function() {
             confirmDelete(index, reservation.name);
         });
@@ -172,7 +161,6 @@ document.addEventListener("DOMContentLoaded", function() {
         return reservationItem;
     }
 
-    // Função para exibir o pop-up de confirmação com o nome da reserva
     function confirmDelete(index, reservationName) {
         const popup = document.createElement("div");
         popup.classList.add("popup-confirm");
@@ -226,13 +214,11 @@ document.addEventListener("DOMContentLoaded", function() {
 
         document.body.appendChild(popup);
 
-        // Evento para remover a reserva ao clicar em "Yes"
         document.getElementById("confirm-yes").addEventListener("click", function() {
             deleteReservation(index);
             popup.remove();
         });
 
-        // Evento para fechar o pop-up ao clicar em "Cancel"
         document.getElementById("confirm-cancel").addEventListener("click", function() {
             popup.remove();
         });
@@ -342,11 +328,11 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 document.addEventListener("DOMContentLoaded", function () {
-    const userType = localStorage.getItem("userType"); // Recupera o tipo de usuário
+    const userType = localStorage.getItem("userType");
     const optionsButton = document.querySelector("button[onclick*='options.html']");
 
     if (userType === "user" && optionsButton) {
-        optionsButton.style.display = "none"; // Esconde o botão "Options" para usuários comuns
+        optionsButton.style.display = "none";
     }
 });
 
@@ -359,7 +345,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function resetTimeout() {
         clearTimeout(timeout);
-        timeout = setTimeout(redirectToLogin, 1 * 60 * 1000);
+        timeout = setTimeout(redirectToLogin, 10 * 60 * 1000);
     }
 
     document.addEventListener("click", resetTimeout);

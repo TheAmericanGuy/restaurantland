@@ -1,0 +1,153 @@
+/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #747474;
+    color: #333;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+header {
+    background-color: #000000;
+    color: #fff;
+    padding: 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    font-size: 3rem;
+}
+
+.header-nav {
+    display: flex;
+    gap: 20px;
+}
+
+.header-nav button {
+    background-color: #363636;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.header-nav button:hover {
+    background-color: #818181;
+}
+
+.main-content {
+    display: flex;
+    padding: 20px;
+    gap: 20px;
+}
+
+/* Estilo para a seção de pedidos */
+.orders-ongoing, .reservations {
+    flex: 1;
+    padding: 20px;
+    background-color: rgba(51, 51, 51, 0.5);
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: calc(100vh - 200px);
+}
+
+.orders-ongoing h2, .reservations h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+    text-align: center;
+    color: #444;
+}
+
+#customer-name {
+    background-color: #444;
+    flex: 1;
+    padding: 15px;
+    font-size: 2em;
+    border: 1px solid #383838;
+    border-radius: 5px;
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Estilo para os botões */
+button {
+    background-color: #000000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    border-radius: 5px;
+    margin: 10px 0;
+    transition: background-color 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #3f3f3f;
+}
+
+button:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+#menu-items {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.menu-item-btn {
+    background-color: #330000a9;
+    color: white;
+    font-size: 1.1rem;
+    margin: 5px;
+    width: 100%;
+}
+
+
+.menu-item-btn:hover {
+    background-color: #860a0a;
+}
+
+/* Lista de itens selecionados */
+#selected-items {
+    list-style-type: none;
+    padding: 0;
+    margin: 10px 0;
+}
+
+#selected-items li {
+    padding: 5px;
+    margin-bottom: 5px;
+    background-color: #f1f1f1;
+    border-radius: 3px;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+    }
+
+    .orders-ongoing, .reservations {
+        max-height: none;
+    }
+}
