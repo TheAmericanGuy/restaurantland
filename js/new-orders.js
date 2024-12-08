@@ -55,5 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
         customerNameInput.value = "";
         selectedItems = [];
         updateSelectedItems();
+        window.location.href = "../index.html"
     });
 });

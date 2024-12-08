@@ -258,11 +258,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const newUserNameInput = document.getElementById("new-user-name");
         const newUserPinInput = document.getElementById("new-user-pin");
         const addUserMessage = document.getElementById("add-user-message");
-
         const userList = document.getElementById("user-list");
 
-        let users = JSON.parse(localStorage.getItem("users")) || [];
-
+        // Alternar entre as abas
         tabs.forEach(tab => {
             tab.addEventListener("click", function () {
                 tabs.forEach(t => t.classList.remove("active"));
@@ -273,59 +271,100 @@ document.addEventListener("DOMContentLoaded", function () {
             });
         });
 
-        addUserForm.addEventListener("submit", function (event) {
+        // Atualizar a lista de usuários
+        async function updateUserList() {
+            try {
+                const response = await fetch('http://localhost:3000/api/users');
+                const users = await response.json();
+
+                userList.innerHTML = ""; // Limpa a lista antes de atualizá-la
+
+                users.forEach(user => {
+                    const li = document.createElement("li");
+                    li.innerHTML = `
+                        <span>${user.name} (PIN: ${user.pin})</span>
+                        <button class="delete-user" data-name="${user.name}">Delete</button>
+                    `;
+                    userList.appendChild(li);
+                });
+
+                // Adicionar evento de clique aos botões "Delete"
+                document.querySelectorAll(".delete-user").forEach(button => {
+                    button.addEventListener("click", async function () {
+                        const userName = this.getAttribute("data-name");
+                        if (confirm(`Tem certeza que deseja deletar ${userName}?`)) {
+                            await deleteUser(userName);
+                            updateUserList(); // Atualiza a lista após deletar
+                        }
+                    });
+                });
+            } catch (err) {
+                console.error("Erro ao buscar usuários:", err);
+                alert("Erro ao buscar a lista de usuários.");
+            }
+        }
+
+        // Função para adicionar usuário
+        addUserForm.addEventListener("submit", async function (event) {
             event.preventDefault();
 
             const name = newUserNameInput.value.trim();
             const pin = newUserPinInput.value.trim();
 
             if (!name || pin.length !== 4 || isNaN(pin)) {
-                alert("Please enter a valid name and a 4-digit PIN.");
+                alert("Por favor, insira um nome válido e um PIN de 4 dígitos.");
                 return;
             }
 
-            if (users.some(user => user.name === name)) {
-                alert("This name is already in use. Please choose a different name.");
-                return;
+            try {
+                const response = await fetch('http://localhost:3000/api/users', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ name, pin, type: 'user' }),
+                });
+
+                const data = await response.json();
+                if (data.success) {
+                    addUserMessage.style.display = "block";
+                    addUserMessage.textContent = "Usuário adicionado com sucesso!";
+                    setTimeout(() => (addUserMessage.style.display = "none"), 2000);
+
+                    newUserNameInput.value = "";
+                    newUserPinInput.value = "";
+                    updateUserList(); // Atualiza a lista após adicionar
+                } else {
+                    alert(`Erro ao adicionar usuário: ${data.message}`);
+                }
+            } catch (err) {
+                console.error("Erro ao se conectar ao servidor:", err);
+                alert("Erro ao se conectar ao servidor.");
             }
-
-            users.push({ name, pin });
-            localStorage.setItem("users", JSON.stringify(users));
-
-            addUserMessage.style.display = "block";
-            setTimeout(() => (addUserMessage.style.display = "none"), 2000);
-
-            newUserNameInput.value = "";
-            newUserPinInput.value = "";
-            updateUserList();
         });
 
-        function updateUserList() {
-            userList.innerHTML = "";
-
-            users.forEach((user, index) => {
-                const li = document.createElement("li");
-                li.innerHTML = `
-                    <span>${user.name} (PIN: ${user.pin})</span>
-                    <button class="delete-user" data-index="${index}">Delete</button>
-                `;
-                userList.appendChild(li);
-            });
-
-            document.querySelectorAll(".delete-user").forEach(button => {
-                button.addEventListener("click", function () {
-                    const index = this.getAttribute("data-index");
-                    console.log(`Deleting user at index: ${index}`);
-                    users.splice(index, 1);
-                    localStorage.setItem("users", JSON.stringify(users));
-                    updateUserList();
+        // Função para deletar usuário
+        async function deleteUser(name) {
+            try {
+                const response = await fetch(`http://localhost:3000/api/users/${name}`, {
+                    method: 'DELETE',
                 });
-            });
+
+                const data = await response.json();
+                if (!data.success) {
+                    alert(`Erro ao deletar usuário: ${data.message}`);
+                }
+            } catch (err) {
+                console.error("Erro ao deletar usuário:", err);
+                alert("Erro ao se conectar ao servidor.");
+            }
         }
 
+        // Atualiza a lista de usuários ao carregar a página
         updateUserList();
     }
 });
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const userType = localStorage.getItem("userType");
