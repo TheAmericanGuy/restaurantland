@@ -11,7 +11,6 @@ document.addEventListener("DOMContentLoaded", function () {
         pinDisplay.textContent = enteredPin.padEnd(4, "•");
     }
 
-    // Eventos para os botões do teclado
     keypadButtons.forEach(button => {
         button.addEventListener("click", function () {
             const key = button.getAttribute("data-key");
@@ -28,7 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
-    // Envia o PIN ao backend ao clicar em "Login"
     submitButton.addEventListener("click", async function () {
         try {
             const response = await fetch('http://localhost:3000/api/login', {
@@ -42,19 +40,19 @@ document.addEventListener("DOMContentLoaded", function () {
             const data = await response.json();
 
             if (data.success) {
-                console.log("Login bem-sucedido:", data.userType);
+                console.log("Welcome home :D:", data.userType);
 
                 // Redireciona baseado no tipo de usuário
                 if (data.userType === "admin") {
-                    window.location.href = "index.html"; // Página do administrador
+                    window.location.href = "index.html"; 
                 } else {
-                    window.location.href = "index.html"; // Página de usuário normal
+                    window.location.href = "index.html"; 
                 }
             } else {
-                errorMessage.style.display = "block"; // Mostra mensagem de erro
+                errorMessage.style.display = "block"; 
                 setTimeout(() => {
                     errorMessage.style.display = "none";
-                }, 2000); // Oculta mensagem após 2 segundos
+                }, 2000); 
                 enteredPin = ""; // Reseta o PIN
                 updatePinDisplay();
             }
@@ -64,6 +62,5 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Inicializa o display do PIN
     updatePinDisplay();
 });

@@ -260,7 +260,6 @@ document.addEventListener("DOMContentLoaded", function () {
         const addUserMessage = document.getElementById("add-user-message");
         const userList = document.getElementById("user-list");
 
-        // Alternar entre as abas
         tabs.forEach(tab => {
             tab.addEventListener("click", function () {
                 tabs.forEach(t => t.classList.remove("active"));
@@ -277,7 +276,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const response = await fetch('http://localhost:3000/api/users');
                 const users = await response.json();
 
-                userList.innerHTML = ""; // Limpa a lista antes de atualizá-la
+                userList.innerHTML = ""; 
 
                 users.forEach(user => {
                     const li = document.createElement("li");
@@ -288,19 +287,18 @@ document.addEventListener("DOMContentLoaded", function () {
                     userList.appendChild(li);
                 });
 
-                // Adicionar evento de clique aos botões "Delete"
                 document.querySelectorAll(".delete-user").forEach(button => {
                     button.addEventListener("click", async function () {
                         const userName = this.getAttribute("data-name");
-                        if (confirm(`Tem certeza que deseja deletar ${userName}?`)) {
+                        if (confirm(`Are you sure you want to delete ${userName}?`)) {
                             await deleteUser(userName);
-                            updateUserList(); // Atualiza a lista após deletar
+                            updateUserList(); 
                         }
                     });
                 });
             } catch (err) {
-                console.error("Erro ao buscar usuários:", err);
-                alert("Erro ao buscar a lista de usuários.");
+                console.error("Err finding users:", err);
+                alert("Err finding users.");
             }
         }
 
@@ -312,7 +310,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const pin = newUserPinInput.value.trim();
 
             if (!name || pin.length !== 4 || isNaN(pin)) {
-                alert("Por favor, insira um nome válido e um PIN de 4 dígitos.");
+                alert("Please enter a valid 4 digit pin.");
                 return;
             }
 
@@ -328,18 +326,18 @@ document.addEventListener("DOMContentLoaded", function () {
                 const data = await response.json();
                 if (data.success) {
                     addUserMessage.style.display = "block";
-                    addUserMessage.textContent = "Usuário adicionado com sucesso!";
+                    addUserMessage.textContent = "User added!";
                     setTimeout(() => (addUserMessage.style.display = "none"), 2000);
 
                     newUserNameInput.value = "";
                     newUserPinInput.value = "";
-                    updateUserList(); // Atualiza a lista após adicionar
+                    updateUserList();
                 } else {
-                    alert(`Erro ao adicionar usuário: ${data.message}`);
+                    alert(`Cannot add user: ${data.message}`);
                 }
             } catch (err) {
-                console.error("Erro ao se conectar ao servidor:", err);
-                alert("Erro ao se conectar ao servidor.");
+                console.error("Err to connect to server:", err);
+                alert("Err to connect to server.");
             }
         });
 
@@ -352,15 +350,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
                 const data = await response.json();
                 if (!data.success) {
-                    alert(`Erro ao deletar usuário: ${data.message}`);
+                    alert(`Something is not right... Cant delete user: ${data.message}`);
                 }
             } catch (err) {
-                console.error("Erro ao deletar usuário:", err);
-                alert("Erro ao se conectar ao servidor.");
+                console.error("Something is not right... Cant delete user:", err);
+                alert("Err to conect to server.");
             }
         }
 
-        // Atualiza a lista de usuários ao carregar a página
         updateUserList();
     }
 });
